@@ -1,0 +1,6 @@
+/venv
+/protos
+*_pb2.py
+*.exe
+__pycache__*
+/.idea
