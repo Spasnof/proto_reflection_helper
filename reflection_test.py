@@ -1,5 +1,6 @@
 from google.protobuf.message import Message
-from google.protobuf.descriptor import FieldDescriptor
+from google.protobuf.descriptor import FieldDescriptor, Descriptor
+
 
 
 # dictionary of string sizes by their global index
@@ -81,7 +82,7 @@ class Protohelper:
         if not _path:
             _path = message.DESCRIPTOR.name + "."
         # handle messages (root) or message descriptors (from sub messages)
-        if isinstance(message, type(message.DESCRIPTOR)):
+        if isinstance(message, type(Descriptor)):
             descriptor = message
         elif isinstance(message, Message):
             descriptor = message.DESCRIPTOR
@@ -96,7 +97,7 @@ class Protohelper:
                                           _gix=_gix,
                                           _repeat_multiplier=message_repeat_multplier)
             if field.type == FieldDescriptor.TYPE_STRING:
-                field_repeat_multiplier = find_str_size_max(_gix)
+                field_repeat_multiplier = self._find_str_size_max(_gix)
             else:
                 yield Protofield(_path, field, _gix, _repeat_multiplier)
 
@@ -109,8 +110,11 @@ def _repeat_():
 import foo_pb2
 
 msg = foo_pb2.SearchRequest()
-for p, f, gi in fq_fields(msg):
-    print(p, f.name, gi)
+ph = Protohelper()
+
+for protofield in ph.fq_fields(msg):
+    print(protofield.get_fq_name())
+    # print(p, f.name, gi)
 
 # more basic example where we gather the size
 bits = 0
