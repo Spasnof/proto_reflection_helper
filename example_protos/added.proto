@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+message SimpleLogMessage
+{
+  optional string LogLine = 1;
+  optional string Severity = 2;
+}

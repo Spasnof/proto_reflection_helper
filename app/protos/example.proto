@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+message SearchRequest {
+  required string query = 1; //string 1
+  optional int32 page_number = 2; //
+  optional int32 result_per_page = 3;
+  optional SubMessage sm = 4;
+}
+
+message SubMessage {
+  required string foo = 1; //string 2
+  repeated Whatever w = 2; //multiplier x
+  required int32 whatever = 3;
+
+}
+
+message Whatever {
+  optional string err = 1;
+  optional Yada y = 2;
+}
+
+enum Yada{
+  Yadaa = 1;
+  Yadaaa = 2;
+}
